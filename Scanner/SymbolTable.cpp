@@ -1,8 +1,7 @@
 #include "SymbolTable.h"
 
-SymbolTable::SymbolTable()
+SymbolTable::SymbolTable(): tableSize(100), noElements(0)
 {
-    this->tableSize = 100;
     this->symbols = std::vector<std::vector<std::string>>(this->tableSize);
     for (int i = 0; i < this->tableSize; ++i)
         this->symbols[i] = std::vector<std::string>();
@@ -20,6 +19,16 @@ void SymbolTable::add(std::string symbol)
     }
 }
 
+int SymbolTable::getNoElementsInFront(int hashTableEntry)
+{
+    int noElements = 0;
+    for (int i = 0; i < hashTableEntry; ++i)
+    {
+        noElements += this->symbols[i].size();
+    }
+    return noElements;
+}
+
 int SymbolTable::find(std::string symbol)
 {
     int hashValue = this->hashFunction(symbol);
@@ -29,10 +38,29 @@ int SymbolTable::find(std::string symbol)
     {
         if (symbolsAtHasedValue[i] == symbol)
         {
-            return hashValue * 10 + i; //found
+            return this->getNoElementsInFront(hashValue) + i; //found
         }
     }
     return -1;
+}
+
+void SymbolTable::printAll()
+{
+    for (int i = 0; i < this->tableSize; ++i)
+    {
+        if (this->symbols[i].size() > 0)
+        {
+            std::cout << "=====" << i << "===== \n";
+            for (int j = 0; j < this->symbols.at(i).size(); ++j)
+            {
+                if (!this->symbols.at(i).at(j).empty())
+                {
+                    std::cout << "(" << this->symbols.at(i).at(j) << ", " << j << ")\n";
+                }
+            }
+            std::cout << "\n";
+        }   
+    }
 }
 
 int SymbolTable::hashFunction(std::string symbol)

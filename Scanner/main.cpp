@@ -13,9 +13,11 @@ int main()
 
 	std::cout <<"ada find at "<< s.find("ada")<<"\n";
 	std::cout <<"daa find at "<< s.find("daa")<<"\n";
-	std::cout <<"daa find at "<< s.find("d")<<"\n";
-	std::cout <<"daa find at "<< s.find("123")<<"\n";
-	std::cout <<"daa find at "<< s.find("1")<<"\n";
+	std::cout <<"d find at "<< s.find("d")<<"\n";
+	std::cout <<"123 find at "<< s.find("123")<<"\n";
+	std::cout <<"1 find at "<< s.find("1")<<"\n";
+
+	s.printAll();
 
 	return 0;
 }
