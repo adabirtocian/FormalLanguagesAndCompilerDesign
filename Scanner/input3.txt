@@ -1,0 +1,18 @@
+int n;
+bool prime=true;
+read(n);
+for(int i=2; i <= n div 2; i++)
+{
+	if (n mod i = 0)
+	{
+		prime=false;
+	}
+}
+if(prime)
+{
+	write("prime);
+} 
+else
+{
+	write("not prime");
+}

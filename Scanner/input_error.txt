@@ -1,0 +1,16 @@
+int  a, b, c_num;
+read(a);
+read(b);
+read(c_num);
+if ( b > a and b > c_num)
+{
+	write(b);	
+}
+else if (a > b and a > c_num)
+{
+	write(a);
+}
+else(c_num > a and c_num > b) 
+{
+	write(c_num);
+}	

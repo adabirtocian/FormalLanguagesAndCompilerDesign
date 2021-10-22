@@ -1,4 +1,4 @@
-#include "SymbolTable.h"
+#include "SymbolTable.hpp"
 
 SymbolTable::SymbolTable(): tableSize(100), noElements(0)
 {
@@ -46,16 +46,17 @@ int SymbolTable::find(std::string symbol)
 
 void SymbolTable::printAll()
 {
+    std::cout << "Symbol table\n";
     for (int i = 0; i < this->tableSize; ++i)
     {
         if (this->symbols[i].size() > 0)
         {
             std::cout << "=====" << i << "===== \n";
-            for (int j = 0; j < this->symbols.at(i).size(); ++j)
+            for (int j = 0; j < this->symbols[i].size(); ++j)
             {
-                if (!this->symbols.at(i).at(j).empty())
+                if (!this->symbols[i][j].empty())
                 {
-                    std::cout << "(" << this->symbols.at(i).at(j) << ", " << j << ")\n";
+                    std::cout << "(" << this->symbols[i][j] << ", " << this->find(this->symbols[i][j]) << ")\n";
                 }
             }
             std::cout << "\n";
