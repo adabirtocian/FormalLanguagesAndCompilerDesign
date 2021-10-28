@@ -11,6 +11,7 @@ private:
 	SymbolTable& symbolTable;
 
 	std::vector<std::string> splitIntoTokens(std::string line);
+	void addTokenAccumulator(std::string& tokenAccumulator, std::vector<std::string>& tokens);
 public:
 	LexicalAnalyzer(LanguageSpecification& language, ProgramInternalForm& pif, SymbolTable& symbolTable);
 	void scanningAlgo(std::string fileName);

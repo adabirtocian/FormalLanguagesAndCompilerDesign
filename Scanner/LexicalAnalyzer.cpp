@@ -22,22 +22,19 @@ void LexicalAnalyzer::scanningAlgo(std::string fileName)
 			{
 				if (this->language.isReservedWord(token) || this->language.isOperator(token) || this->language.isSeparator(token))
 				{
-					int code = this->language.getCodeForToken(token);
-					this->pif.add(std::pair<int, int>(code, -1));
+					this->pif.add(std::pair<std::string, int>(token, -1));
 				}
 				else if (this->language.isIdentifier(token))
 				{
 					this->symbolTable.add(token);
 					int positionInST = this->symbolTable.find(token);
-					int code = this->language.getCodeForToken("identifier");
-					this->pif.add(std::pair<int, int>(code, positionInST));
+					this->pif.add(std::pair<std::string, int>(token, positionInST));
 				}
 				else if (this->language.isConstant(token))
 				{
 					this->symbolTable.add(token);
 					int positionInST = this->symbolTable.find(token);
-					int code = this->language.getCodeForToken("constant");
-					this->pif.add(std::pair<int, int>(code, positionInST));
+					this->pif.add(std::pair<std::string, int>(token, positionInST));
 				}
 				else
 				{
@@ -62,7 +59,6 @@ std::vector<std::string> LexicalAnalyzer::getInputAsTokensList(std::string fileN
 			tokens.insert(tokens.end(), lineTokens.begin(), lineTokens.end());
 		}
 	}
-
 	return tokens;
 }
 
@@ -87,31 +83,26 @@ std::vector<std::string> LexicalAnalyzer::splitIntoTokens(std::string line)
 		{
 			if (this->language.isSeparator(std::string(1, line[i])))
 			{
-				if (tokenAccumulator.size() != 0)
-				{
-					if (tokenAccumulator != " ") tokens.push_back(tokenAccumulator);
-					tokenAccumulator = "";
-				}
+				this->addTokenAccumulator(tokenAccumulator, tokens);
 				tokens.push_back(std::string(1, line[i]));
 			}
 			else if (this->language.isPartOfOperator(std::string(1, line[i])))
 			{
-				if (tokenAccumulator.size() != 0)
-				{
-					if (tokenAccumulator != " ") tokens.push_back(tokenAccumulator);
-					tokenAccumulator = "";
-				}
+				this->addTokenAccumulator(tokenAccumulator, tokens);
 				std::string operatorToken = this->language.getOperatorToken(std::string(1, line[i]), line, i + 1);
-				i += operatorToken.size() - 1;
-				tokens.push_back(operatorToken);
+				if ((operatorToken == "+" || operatorToken == "-") && (tokens[tokens.size() - 1] == "=" || tokens[tokens.size() -1] == "("))
+				{
+					tokenAccumulator += operatorToken;
+				}
+				else
+				{
+					i += operatorToken.length() - 1;
+					tokens.push_back(operatorToken);
+				}
 			}
 			else if (line[i] == '"')
 			{
-				if (tokenAccumulator.size() != 0)
-				{
-					if (tokenAccumulator != " ") tokens.push_back(tokenAccumulator);
-					tokenAccumulator = "";
-				}
+				this->addTokenAccumulator(tokenAccumulator, tokens);
 				std::string stringToken = this->language.getStringToken(line, i + 1);
 				i += stringToken.size() - 1;
 				tokens.push_back(stringToken);
@@ -121,11 +112,25 @@ std::vector<std::string> LexicalAnalyzer::splitIntoTokens(std::string line)
 				tokenAccumulator += std::string(1, line[i]);
 			}
 		}
-		else if (tokenAccumulator.size() != 0 and tokenAccumulator != " ")
+		else 
 		{
-			tokens.push_back(tokenAccumulator);
-			tokenAccumulator = "";
+			this->addTokenAccumulator(tokenAccumulator, tokens);
 		}
 	}
 	return tokens;
+}
+
+void LexicalAnalyzer::addTokenAccumulator(std::string& tokenAccumulator, std::vector<std::string>& tokens)
+{
+	if (tokenAccumulator.size() != 0 && tokenAccumulator != " ")
+	{
+		if (tokenAccumulator == "+0" || tokenAccumulator == "-0")
+		{
+			tokenAccumulator = tokenAccumulator[1];
+		}
+
+		tokens.push_back(tokenAccumulator);
+		tokenAccumulator = "";
+	}
+
 }

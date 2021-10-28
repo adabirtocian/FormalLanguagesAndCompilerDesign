@@ -1,6 +1,9 @@
 #include "SymbolTable.hpp"
+#include <fstream>
+#include <iostream>
+#include <string>
 
-SymbolTable::SymbolTable(): tableSize(100), noElements(0)
+SymbolTable::SymbolTable(): tableSize(100), noElements(0), noElementsList(10)
 {
     this->symbols = std::vector<std::vector<std::string>>(this->tableSize);
     for (int i = 0; i < this->tableSize; ++i)
@@ -38,7 +41,7 @@ int SymbolTable::find(std::string symbol)
     {
         if (symbolsAtHasedValue[i] == symbol)
         {
-            return this->getNoElementsInFront(hashValue) + i; //found
+            return this->noElementsList * hashValue + i; //found
         }
     }
     return -1;
@@ -64,9 +67,32 @@ void SymbolTable::printAll()
     }
 }
 
+void SymbolTable::writeToFile(std::string fileName)
+{
+    std::ofstream file(fileName, std::ios::out);
+    if (file.is_open())
+    {
+        for (int i = 0; i < this->tableSize; ++i)
+        {
+            if (this->symbols[i].size() > 0)
+            {
+                file << "=====" << i << "===== \n";
+                for (int j = 0; j < this->symbols[i].size(); ++j)
+                {
+                    if (!this->symbols[i][j].empty())
+                    {
+                        file << "(" << this->symbols[i][j] << ", " << this->find(this->symbols[i][j]) << ")\n";
+                    }
+                }
+                file << "\n";
+            }
+        }
+    }
+}
+
 int SymbolTable::hashFunction(std::string symbol)
 {
-    string::iterator it;
+    std::string::iterator it;
     int sumAsciiCodes = 0;
     for (it = symbol.begin(); it != symbol.end(); it++) {
         sumAsciiCodes += int(*it);

@@ -10,14 +10,9 @@ private:
 	std::vector<std::string> operators;
 	std::vector<std::string> reservedWords;
 	std::vector<std::string> whiteSpaces;
-	std::map<std::string, int> codes;
 
-	void encode();
-	
 public:
 	LanguageSpecification();
-	std::map<std::string, int> getCodes();
-	int getCodeForToken(std::string token);
 	std::vector<std::string> getSeparators();
 	std::vector<std::string> getOperators();
 	std::vector<std::string> getReservedWords();
@@ -32,5 +27,7 @@ public:
 
 	std::string getOperatorToken(std::string startToken, std::string line, int index);
 	std::string getStringToken(std::string line, int index);
+
+	void loadTokens(std::string fileName);
 };
 

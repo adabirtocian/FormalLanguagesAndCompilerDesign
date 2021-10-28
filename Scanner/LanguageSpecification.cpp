@@ -1,5 +1,6 @@
 #include "LanguageSpecification.hpp"
 #include <regex>
+#include <fstream>
 
 LanguageSpecification::LanguageSpecification()
 {
@@ -8,60 +9,8 @@ LanguageSpecification::LanguageSpecification()
 	this->whiteSpaces.push_back("\t");
 
 	this->separators = std::vector<std::string>();
-	this->separators.push_back(",");
-	this->separators.push_back(";");
-	this->separators.push_back("(");
-	this->separators.push_back(")");
-	this->separators.push_back("[");
-	this->separators.push_back("]");
-	this->separators.push_back("{");
-	this->separators.push_back("}");
-
 	this->operators = std::vector<std::string>();
-	this->operators.push_back("+");
-	this->operators.push_back("-");
-	this->operators.push_back("*");
-	this->operators.push_back(":=");
-	this->operators.push_back("<");
-	this->operators.push_back("<=");
-	this->operators.push_back(">");
-	this->operators.push_back(">=");
-	this->operators.push_back("=");
-	this->operators.push_back("!=");
-	this->operators.push_back("++");
-	this->operators.push_back("--");
-
 	this->reservedWords = std::vector<std::string>();
-	this->reservedWords.push_back("if");
-	this->reservedWords.push_back("else");
-	this->reservedWords.push_back("and");
-	this->reservedWords.push_back("or");
-	this->reservedWords.push_back("not");
-	this->reservedWords.push_back("read");
-	this->reservedWords.push_back("write");
-	this->reservedWords.push_back("const");
-	this->reservedWords.push_back("array");
-	this->reservedWords.push_back("int");
-	this->reservedWords.push_back("char");
-	this->reservedWords.push_back("string");
-	this->reservedWords.push_back("bool");
-	this->reservedWords.push_back("for");
-	this->reservedWords.push_back("div");
-	this->reservedWords.push_back("mod");
-	this->reservedWords.push_back("true");
-	this->reservedWords.push_back("false");
-
-	this->encode();
-}
-
-std::map<std::string, int> LanguageSpecification::getCodes()
-{
-	return this->codes;
-}
-
-int LanguageSpecification::getCodeForToken(std::string token)
-{
-	return this->codes[token];
 }
 
 std::vector<std::string> LanguageSpecification::getSeparators()
@@ -128,11 +77,9 @@ std::string LanguageSpecification::getOperatorToken(std::string startToken, std:
 	std::string token = startToken;
 	for (int i = index; i < line.size(); ++i)
 	{
-		if (!this->isPartOfOperator(std::string(1, line[i])))
-		{
-			return token;
-		}
 		token += std::string(1, line[i]);
+		if (!this->isPartOfOperator(token)) return startToken;
+		if (this->isOperator(token)) return token;
 	}
 	return token;
 }
@@ -151,27 +98,36 @@ std::string LanguageSpecification::getStringToken(std::string line, int index)
 	return token;
 }
 
-void LanguageSpecification::encode()
+void LanguageSpecification::loadTokens(std::string fileName)
 {
-	this->codes = std::map<std::string, int>();
-	this->codes.insert(std::pair<std::string, int>("identifier", 0));
-	this->codes.insert(std::pair<std::string, int>("constant", 1));
+	std::ifstream file(fileName, std::ios::in);
+	if (file.is_open())
+	{	
+		for (int i = 0; i < 3; ++i)
+		{
+			std::string tokensNumber;
+			getline(file, tokensNumber);
+			std::string line;
 
-	int currentCode = 2;
-	for (int i = 0; i < this->separators.size(); ++i)
-	{
-		this->codes.insert(std::pair<std::string, int>(this->separators[i], currentCode));
-		currentCode++;
-	}
-	for (int i = 0; i < this->operators.size(); ++i)
-	{
-		this->codes.insert(std::pair<std::string, int>(this->operators[i], currentCode));
-		currentCode++;
-	}
-	for (int i = 0; i < this->reservedWords.size(); ++i)
-	{
-		this->codes.insert(std::pair<std::string, int>(this->reservedWords[i], currentCode));
-		currentCode++;
+			for (int j = 0; j < atoi(tokensNumber.c_str()); ++j)
+			{
+				getline(file, line);
+				switch (i) 
+				{
+					case 0:
+						this->separators.push_back(line);
+						break;
+					case 1:
+						this->operators.push_back(line);
+						break;
+					case 2:
+						this->reservedWords.push_back(line);
+						break;
+					default:
+						break;
+				}
+			}
+		}
 	}
 }
 

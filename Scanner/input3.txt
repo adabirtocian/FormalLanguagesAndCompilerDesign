@@ -1,6 +1,7 @@
 int n;
 bool prime=true;
 read(n);
+n=-9;
 for(int i=2; i <= n div 2; i++)
 {
 	if (n mod i = 0)
@@ -10,7 +11,7 @@ for(int i=2; i <= n div 2; i++)
 }
 if(prime)
 {
-	write("prime);
+	write("prime");
 } 
 else
 {

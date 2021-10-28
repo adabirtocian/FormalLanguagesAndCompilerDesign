@@ -1,4 +1,7 @@
-int n, sumNums=0;
+int n, sumNums=0, a;
+a=-9+7-(-3);
+a=+0;
+a=-0;
 read(n);
 array[100] int nums;
 for (int i=0; i<n; i++)
@@ -9,44 +12,3 @@ for (int i=0; i<n; i++)
 int averageNums = sumNums div n;
 write(averageNums);
 
-
-!= -> 19
-( -> 4
-) -> 5
-* -> 12
-+ -> 10
-++ -> 20
-, -> 2
-- -> 11
--- -> 21
-:= -> 13
-; -> 3
-< -> 14
-<= -> 15
-= -> 18
-> -> 16
->= -> 17
-[ -> 6
-] -> 7
-and -> 24
-array -> 30
-bool -> 34
-char -> 32
-const -> 29
-constant -> 1
-div -> 36
-else -> 23
-false -> 39
-for -> 35
-identifier -> 0
-if -> 22
-int -> 31
-mod -> 37
-not -> 26
-or -> 25
-read -> 27
-string -> 33
-true -> 38
-write -> 28
-{ -> 8
-} -> 9
