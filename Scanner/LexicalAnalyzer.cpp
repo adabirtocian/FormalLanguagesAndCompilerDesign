@@ -28,13 +28,13 @@ void LexicalAnalyzer::scanningAlgo(std::string fileName)
 				{
 					this->symbolTable.add(token);
 					int positionInST = this->symbolTable.find(token);
-					this->pif.add(std::pair<std::string, int>(token, positionInST));
+					this->pif.add(std::pair<std::string, int>("id", positionInST));
 				}
 				else if (this->language.isConstant(token))
 				{
 					this->symbolTable.add(token);
 					int positionInST = this->symbolTable.find(token);
-					this->pif.add(std::pair<std::string, int>(token, positionInST));
+					this->pif.add(std::pair<std::string, int>("constant", positionInST));
 				}
 				else
 				{
@@ -90,7 +90,7 @@ std::vector<std::string> LexicalAnalyzer::splitIntoTokens(std::string line)
 			{
 				this->addTokenAccumulator(tokenAccumulator, tokens);
 				std::string operatorToken = this->language.getOperatorToken(std::string(1, line[i]), line, i + 1);
-				if ((operatorToken == "+" || operatorToken == "-") && (tokens[tokens.size() - 1] == "=" || tokens[tokens.size() -1] == "("))
+				if ((operatorToken == "+" || operatorToken == "-") && (tokens[tokens.size() - 1] == ":=" || tokens[tokens.size() -1] == "("))
 				{
 					tokenAccumulator += operatorToken;
 				}

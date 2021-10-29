@@ -1,15 +1,14 @@
 int n;
-bool prime=true;
+bool isprime:=true;
 read(n);
-n=-9;
-for(int i=2; i <= n div 2; i++)
+for(int i:=2; i <= n div 2; i++)
 {
 	if (n mod i = 0)
 	{
-		prime=false;
+		isprime:=false;
 	}
 }
-if(prime)
+if(isprime)
 {
 	write("prime");
 } 

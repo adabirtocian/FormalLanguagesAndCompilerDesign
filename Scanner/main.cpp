@@ -6,7 +6,7 @@
 
 int main()
 {
-	const std::string INPUT_FILE = "input2.txt";
+	const std::string INPUT_FILE = "input3.txt";
 	const std::string TOKENS_FILE_NAME = "tokens.in";
 
 

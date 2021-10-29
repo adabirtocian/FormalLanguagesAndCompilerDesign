@@ -1,14 +1,14 @@
-int n, sumNums=0, a;
-a=-9+7-(-3);
-a=+0;
-a=-0;
+int n, sumNums:=0, a;
+a:=-9+7-(-3);
+a:=+0;
+a:=-0;
 read(n);
 array[100] int nums;
-for (int i=0; i<n; i++)
+for (int i:=0; i<n; i++)
 {
 	read(nums[i]);
-	sumNums = sumNums + nums[i];
+	sumNums := sumNums + nums[i];
 }
-int averageNums = sumNums div n;
+int averageNums := sumNums div n;
 write(averageNums);
 
