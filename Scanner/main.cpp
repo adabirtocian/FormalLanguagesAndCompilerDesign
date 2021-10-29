@@ -1,23 +1,39 @@
-#include "SymbolTable.h"
 #include <iostream>
-
-
+#include "LanguageSpecification.hpp"
+#include "SymbolTable.hpp"
+#include "ProgramInternalForm.hpp"
+#include "LexicalAnalyzer.hpp"
 
 int main()
 {
-	SymbolTable s = SymbolTable();
-	s.add("ada"); // hashed to 94
-	s.add("daa"); // hashed to 94
-	s.add("d"); //hashed to 0
-	s.add("123");
+	const std::string INPUT_FILE = "input3.txt";
+	const std::string TOKENS_FILE_NAME = "tokens.in";
 
-	std::cout <<"ada find at "<< s.find("ada")<<"\n";
-	std::cout <<"daa find at "<< s.find("daa")<<"\n";
-	std::cout <<"d find at "<< s.find("d")<<"\n";
-	std::cout <<"123 find at "<< s.find("123")<<"\n";
-	std::cout <<"1 find at "<< s.find("1")<<"\n";
 
-	s.printAll();
+	LanguageSpecification language = LanguageSpecification();
+	language.loadTokens(TOKENS_FILE_NAME);
+
+	ProgramInternalForm pif = ProgramInternalForm();
+	SymbolTable symbolTable = SymbolTable();
+	LexicalAnalyzer lexicalAnalyzer = LexicalAnalyzer(language, pif, symbolTable);
+	auto tokens = lexicalAnalyzer.getInputAsTokensList(INPUT_FILE);
+	for (auto t : tokens)
+	{
+		std::cout << t << "|";
+	}
+	std::cout << std::endl;
+
+	try {
+		lexicalAnalyzer.scanningAlgo(INPUT_FILE);
+		std::cout << "Lexically corect\n";
+	}
+	catch (std::exception e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+
+	pif.writeToFile("pif.out");
+	symbolTable.writeToFile("symbolTable.out");
 
 	return 0;
 }
