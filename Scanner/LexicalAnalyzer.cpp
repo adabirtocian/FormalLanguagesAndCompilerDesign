@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-LexicalAnalyzer::LexicalAnalyzer(LanguageSpecification& language, ProgramInternalForm& pif, SymbolTable& symbolTable): 
-	language(language), pif(pif), symbolTable(symbolTable)
+LexicalAnalyzer::LexicalAnalyzer(LanguageSpecification& language, ProgramInternalForm& pif, SymbolTable& symbolTable, FiniteAutomaton& finiteAutomatonIntegers, FiniteAutomaton& finiteAutomatonIdentifiers):
+	language(language), pif(pif), symbolTable(symbolTable), finiteAutomatonIntegers(finiteAutomatonIntegers), finiteAutomatonIdentifiers(finiteAutomatonIdentifiers)
 {}
 
 void LexicalAnalyzer::scanningAlgo(std::string fileName)
@@ -24,13 +24,13 @@ void LexicalAnalyzer::scanningAlgo(std::string fileName)
 				{
 					this->pif.add(std::pair<std::string, int>(token, -1));
 				}
-				else if (this->language.isIdentifier(token))
+				else if (this->finiteAutomatonIdentifiers.acceptsSequence(token))
 				{
 					this->symbolTable.add(token);
 					int positionInST = this->symbolTable.find(token);
 					this->pif.add(std::pair<std::string, int>("id", positionInST));
 				}
-				else if (this->language.isConstant(token))
+				else if (this->finiteAutomatonIntegers.acceptsSequence(token) || this->language.isConstant(token))
 				{
 					this->symbolTable.add(token);
 					int positionInST = this->symbolTable.find(token);

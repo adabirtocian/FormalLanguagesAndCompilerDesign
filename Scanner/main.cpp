@@ -3,6 +3,7 @@
 #include "SymbolTable.hpp"
 #include "ProgramInternalForm.hpp"
 #include "LexicalAnalyzer.hpp"
+#include "FiniteAutomaton.hpp"
 
 int main()
 {
@@ -15,7 +16,9 @@ int main()
 
 	ProgramInternalForm pif = ProgramInternalForm();
 	SymbolTable symbolTable = SymbolTable();
-	LexicalAnalyzer lexicalAnalyzer = LexicalAnalyzer(language, pif, symbolTable);
+	FiniteAutomaton finiteAutomatonIntegers = FiniteAutomaton("integers.in");
+	FiniteAutomaton finiteAutomatonIdentifiers = FiniteAutomaton("identifiers.in");
+	LexicalAnalyzer lexicalAnalyzer = LexicalAnalyzer(language, pif, symbolTable, finiteAutomatonIntegers, finiteAutomatonIdentifiers);
 	auto tokens = lexicalAnalyzer.getInputAsTokensList(INPUT_FILE);
 	for (auto t : tokens)
 	{
