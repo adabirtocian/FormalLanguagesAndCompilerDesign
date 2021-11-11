@@ -9,7 +9,7 @@ private:
 	std::string alphabetElem;
 
 public:
-	Transition(std::string state1, std::string state2, std::string terminal);
+	Transition(std::string state1, std::string alphabetElem, std::string state2);
 	std::string getState1();
 	std::string getState2();
 	std::string getAlphabetElem();

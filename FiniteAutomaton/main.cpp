@@ -4,12 +4,11 @@
 
 int main()
 {
-	FiniteAutomaton fa = FiniteAutomaton("fa.in");
-	std::cout<<fa.isDeterministic();
+	FiniteAutomaton fa = FiniteAutomaton("identifiers.in");
 
 	while (true)
 	{
-		std::cout << "Menu:\n1. States\n2. Alphabet\n3. Transitions\n4. Final states\n5. Is deterministic\n";
+		std::cout << "Menu:\n1. States\n2. Alphabet\n3. Transitions\n4. Final states\n5. Is deterministic\n6. Check sequence\n";
 		int choice;
 		std::cout << "Choose:\n";
 		std::cin >> choice;
@@ -37,6 +36,16 @@ int main()
 		else if (choice == 5)
 		{
 			fa.isDeterministic() ? std::cout << "Deterministic\n" : std::cout << "Nondeterministic\n";
+		}
+		else if (choice == 6)
+		{
+			std::cout << "Give sequence:\n";
+			std::string sequence;
+			std::cin >> sequence;
+			
+			fa.acceptsSequence(sequence) 
+				? std::cout << "FA accepts sequence "<<sequence<<"\n" 
+				: std::cout << "FA doesn't accept sequence " << sequence << "\n";
 		}
 		else
 		{

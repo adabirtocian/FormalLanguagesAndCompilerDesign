@@ -1,7 +1,7 @@
 #include "Transition.hpp"
 
-Transition::Transition(std::string nonterminal1, std::string nonterminal2, std::string terminal)
-    : state1{nonterminal1}, state2{nonterminal2}, alphabetElem{terminal}
+Transition::Transition(std::string state1, std::string alphabetElem, std::string state2)
+    : state1{state1}, state2{state2}, alphabetElem{alphabetElem}
 {}
 
 std::string Transition::getState1()
