@@ -13,6 +13,6 @@ Identifiers finite automaton
 ![Identifier](https://github.com/adabirtocian/Scanner_FLCD/blob/main/FiniteAutomaton/Images/identifier.png "Identifier")  
 
 Integers finite automaton  
-![Integer](https://github.com/adabirtocian/Scanner_FLCD/blob/main/FiniteAutomaton/Images/integer.png "Integer")  
+![Integer](https://github.com/adabirtocian/Scanner_FLCD/blob/main/FiniteAutomaton/Images/integers.png "Integer")  
 
 [Scanner](Scanner)
