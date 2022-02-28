@@ -16,3 +16,7 @@ Integers finite automaton
 ![Integer](https://github.com/adabirtocian/Scanner_FLCD/blob/main/FiniteAutomaton/Images/integers.png "Integer")  
 
 [Scanner](Scanner)
+# Requirement
+Implement a scanner (lexical analyzer).
+- ST.out should give information about the data structure used in representation.
+- If there exists an error the program should give a description and the location (line and token)
