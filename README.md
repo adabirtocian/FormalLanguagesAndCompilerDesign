@@ -1,4 +1,4 @@
-# Scanner_FLCD
+# Formal Languages and Compiler Design
 
 [Finite Automaton](FiniteAutomaton)
 # Requirement
